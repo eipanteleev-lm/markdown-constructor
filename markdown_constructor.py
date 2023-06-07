@@ -173,6 +173,30 @@ class Link(MarkdownElement):
         return f'[{self.text}]({link})'
     
 
+class Image(Link):
+    """
+    Class for Markdown image element
+
+    Attributes:
+        text: str, image text
+        link: str, image address
+        quote: bool, need to quote image address, False by default
+
+    Examples:
+        Rendering image
+
+        ```
+        >> element = Image('Beautiful picture', 'image.png')
+        >> element.render()
+        ![Beautiful picture](image.png)
+        ```
+    """
+    
+    def render(self):
+        """Returns Markdown image"""
+        return f'!{super().render()}'
+    
+
 class Paragraph(MarkdownContainer):
     """Class for Markdown paragraph element"""
 
