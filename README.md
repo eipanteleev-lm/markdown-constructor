@@ -26,7 +26,15 @@ markdown = md.MarkdownContainer(
         md.Paragraph([
             "For more information about supported elements see ",
             md.Link('docs', 'docs/Code Reference.md', quote=True)
-        ])
+        ]),
+        md.H2(['Testing']),
+        md.Code(
+            [
+                'pip install tox\n'
+                'tox'
+            ],
+            language='sh'
+        )
     ]
 )
 
@@ -36,3 +44,9 @@ with open('README.md', 'w') as f:
 
 For more information about supported elements see [docs](docs/Code%20Reference.md)
 
+## Testing
+
+```sh
+pip install tox
+tox
+```

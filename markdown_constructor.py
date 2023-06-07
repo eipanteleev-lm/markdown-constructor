@@ -20,7 +20,7 @@ class Whitespace(MarkdownElement):
     def render(self) -> str:
         """Returns whitespace"""
         return ' '
-    
+
 
 class NewLine(MarkdownElement):
     """Markdown new line element"""
@@ -28,7 +28,7 @@ class NewLine(MarkdownElement):
     def render(self) -> str:
         """Returns new line character"""
         return '\n'
-    
+
 
 class ParagraphBreak(MarkdownElement):
     """Markdown paragraph break element"""
@@ -36,7 +36,7 @@ class ParagraphBreak(MarkdownElement):
     def render(self) -> str:
         """Returns two new line characters (for Markdown paragraph break)"""
         return '\n\n'
-    
+
 
 class Line(MarkdownElement):
     """Markdown line break element"""
@@ -102,7 +102,7 @@ class MarkdownContainer(MarkdownElement):
             )
             for element in self.elements
         )
-    
+
 
 class Quote(MarkdownElement):
     """
@@ -117,7 +117,7 @@ class Quote(MarkdownElement):
         ```
         >> element = Quote('text_with_dashes')
         >> element.render()
-        text\_with\_dashes
+        text\\_with\\_dashes
         ```
     """
 
@@ -129,7 +129,7 @@ class Quote(MarkdownElement):
         quoted_text = self.text
 
         for symbol in MARKDOWN_QUOTE_SYMBOLS:
-            quoted_text = quoted_text.replace(symbol, '\\'+ symbol)
+            quoted_text = quoted_text.replace(symbol, '\\' + symbol)
 
         return quoted_text
 
@@ -171,7 +171,7 @@ class Link(MarkdownElement):
             else self.link
         )
         return f'[{self.text}]({link})'
-    
+
 
 class Image(Link):
     """
@@ -191,11 +191,11 @@ class Image(Link):
         ![Beautiful picture](image.png)
         ```
     """
-    
+
     def render(self):
         """Returns Markdown image"""
         return f'!{super().render()}'
-    
+
 
 class Paragraph(MarkdownContainer):
     """Class for Markdown paragraph element"""
@@ -226,7 +226,7 @@ class Header(MarkdownContainer):
         >> )
         >> element.render()
 
-        # module markdown\_constructor
+        # module markdown\\_constructor
         ```
     """
 
@@ -246,7 +246,7 @@ class Header(MarkdownContainer):
             + f' {super().render()}'
             + ParagraphBreak().render()
         )
-    
+
 
 class H1(Header):
     """Class for 1 level Markdown header"""
@@ -303,7 +303,7 @@ class H5(Header):
         super().__init__(elements, sep, 5)
 
 
-class H5(Header):
+class H6(Header):
     """Class for 6 level Markdown header"""
 
     def __init__(
@@ -312,7 +312,7 @@ class H5(Header):
         sep: (MarkdownElement | str) = '',
     ):
         super().__init__(elements, sep, 6)
-    
+
 
 class Bold(MarkdownContainer):
     """
@@ -331,7 +331,7 @@ class Bold(MarkdownContainer):
     def render(self) -> str:
         """Returns bolded inner elements"""
         return f'**{super().render()}**'
-    
+
 
 class Italic(MarkdownContainer):
     """
@@ -346,11 +346,11 @@ class Italic(MarkdownContainer):
         *some italic text*
         ```
     """
-    
+
     def render(self) -> str:
         """Returns italic inner elements"""
         return f'*{super().render()}*'
-    
+
 
 class BoldItalic(MarkdownContainer):
     """
@@ -369,7 +369,7 @@ class BoldItalic(MarkdownContainer):
     def render(self) -> str:
         """Returns bolded italic inner elements"""
         return f'***{super().render()}***'
-    
+
 
 class Blockquotes(MarkdownContainer):
     """
@@ -391,7 +391,7 @@ class Blockquotes(MarkdownContainer):
             ('> ' + line)
             for line in super().render().split('\n')
         )
-    
+
 
 class OrderedList(MarkdownContainer):
     """
@@ -411,14 +411,14 @@ class OrderedList(MarkdownContainer):
         3. third item
         ```
     """
-    
+
     def __init__(self, elements: list[MarkdownContainer | str]):
         self.elements = elements
 
     def render(self) -> str:
         """Returns Markdown ordered list with inner elements as items"""
         return '\n'.join(
-            f'{i}. ' 
+            f'{i}. '
             + (
                 element.render()
                 if isinstance(element, MarkdownElement)
@@ -426,7 +426,7 @@ class OrderedList(MarkdownContainer):
             )
             for i, element in enumerate(self.elements, 1)
         )
-    
+
 
 class UnorderedList(MarkdownContainer):
     """
@@ -450,7 +450,7 @@ class UnorderedList(MarkdownContainer):
     def render(self) -> str:
         """Returns Markdown unordered list with inner elements as items"""
         return '\n'.join(
-            '- ' 
+            '- '
             + (
                 element.render()
                 if isinstance(element, MarkdownElement)
@@ -458,7 +458,7 @@ class UnorderedList(MarkdownContainer):
             )
             for i, element in enumerate(self.elements, 1)
         )
-    
+
 
 class InlineCode(MarkdownContainer):
     """
@@ -477,7 +477,7 @@ class InlineCode(MarkdownContainer):
     def render(self) -> str:
         """Returns Mrkdown inline code with inner elements"""
         return f'`{super().render()}`'
-    
+
 
 class Code(MarkdownContainer):
     """
@@ -513,7 +513,7 @@ class Code(MarkdownContainer):
     ):
         self.language = language
         super().__init__(elements, sep)
-    
+
     def render(self) -> str:
         """Returns markdown code block with inner elements"""
         return (
@@ -521,7 +521,7 @@ class Code(MarkdownContainer):
             + f'{super().render()}\n'
             + '```'
         )
-    
+
 
 class ColumnOrientation(str, Enum):
     """Markdown table column orientation"""
@@ -579,7 +579,10 @@ class Table(MarkdownContainer):
         >>         md.TableRow(['1', 'one']),
         >>         md.TableRow(['2', 'two'])
         >>     ],
-        >>     orientation=[md.ColumnOrientation.LEFT, md.ColumnOrientation.RIGHT]
+        >>     orientation=[
+        >>         md.ColumnOrientation.LEFT,
+        >>         md.ColumnOrientation.RIGHT
+        >>     ]
         >> )
         >> table.render()
         name | value
