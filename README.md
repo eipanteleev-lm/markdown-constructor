@@ -24,7 +24,7 @@ markdown = md.MarkdownContainer(
         md.Code([code], language='py'),
         md.ParagraphBreak(),
         md.Paragraph([
-            "For mor information about supported elements see ",
+            "For more information about supported elements see ",
             md.Link('docs', 'docs/Code Reference.md', quote=True)
         ])
     ]
@@ -34,5 +34,5 @@ with open('README.md', 'w') as f:
     f.write(markdown.render())
 ```
 
-For mor information about supported elements see [docs](docs/Code%20Reference.md)
+For more information about supported elements see [docs](docs/Code%20Reference.md)
 
