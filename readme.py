@@ -15,7 +15,7 @@ markdown = md.MarkdownContainer(
         ]),
         md.H2(['Usage']),
         md.Code([code], language='py'),
-        md.ParagraphBreak(),
+        md.PARAGRAPH_BREAK,
         md.Paragraph([
             "For more information about supported elements see ",
             md.Link('docs', 'docs/Code Reference.md', quote=True)

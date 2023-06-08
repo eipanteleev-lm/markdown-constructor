@@ -4,58 +4,16 @@ from enum import Enum
 MARKDOWN_QUOTE_SYMBOLS = list('_')
 
 
-class MarkdownElement:
-    """
-    Base class for markdown renderers
-    """
-
-    def render(self) -> str:
-        """Returns markdown representation of element"""
-        pass
-
-
-class Whitespace(MarkdownElement):
-    """Markdown whitespace element"""
-
-    def render(self) -> str:
-        """Returns whitespace"""
-        return ' '
-
-
-class NewLine(MarkdownElement):
-    """Markdown new line element"""
-
-    def render(self) -> str:
-        """Returns new line character"""
-        return '\n'
-
-
-class ParagraphBreak(MarkdownElement):
-    """Markdown paragraph break element"""
-
-    def render(self) -> str:
-        """Returns two new line characters (for Markdown paragraph break)"""
-        return '\n\n'
-
-
-class Line(MarkdownElement):
-    """Markdown line break element"""
-
-    def render(self) -> str:
-        """Returns markdown line"""
-        return '\n\n---\n\n'
-
-
-class MarkdownContainer(MarkdownElement):
+class MarkdownContainer:
     """
     Base class for list of Markdown elements, also usefull for groupping
         other elements
 
     Attributes:
-        elemens: list[MarkdownElement | str], list of inner elements,
-            could be another MarkdownElement or python string
-        sep: (MarkdownElement | str), elements separator, could be another
-            MarkdownElement or python string
+        elemens: list[MarkdownContainer | str], list of inner elements,
+            could be another MarkdownContainer or python string
+        sep: (MarkdownContainer | str), elements separator, could be another
+            MarkdownContainer or python string
 
     Examples:
         Rendering multiple lines splitted by paragraph break
@@ -77,8 +35,8 @@ class MarkdownContainer(MarkdownElement):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = ''
+        elements: 'list[MarkdownContainer | str]',
+        sep: '(MarkdownContainer | str)' = ''
     ):
         self.elements = elements
         self.sep = sep
@@ -90,21 +48,27 @@ class MarkdownContainer(MarkdownElement):
         """
         sep = (
             self.sep.render()
-            if isinstance(self.sep, MarkdownElement)
+            if isinstance(self.sep, MarkdownContainer)
             else f'{self.sep}'
         )
 
         return sep.join(
             (
                 element.render()
-                if isinstance(element, MarkdownElement)
+                if isinstance(element, MarkdownContainer)
                 else f'{element}'
             )
             for element in self.elements
         )
 
 
-class Quote(MarkdownElement):
+WHITESPACE = MarkdownContainer([' '])
+NEWLINE = MarkdownContainer(['\n'])
+PARAGRAPH_BREAK = MarkdownContainer(['\n\n'])
+LINE = MarkdownContainer(['\n\n---\n\n'])
+
+
+class Quote(MarkdownContainer):
     """
     Class for quoting Markdown symbols
 
@@ -134,7 +98,7 @@ class Quote(MarkdownElement):
         return quoted_text
 
 
-class Link(MarkdownElement):
+class Link(MarkdownContainer):
     """
     Class for Markdown link element
 
@@ -204,7 +168,7 @@ class Paragraph(MarkdownContainer):
         """Renders inner elements, with paragraph break in the end"""
         return (
             super().render()
-            + ParagraphBreak().render()
+            + PARAGRAPH_BREAK.render()
         )
 
 
@@ -213,8 +177,8 @@ class Header(MarkdownContainer):
     Base class for Markdown header element
 
     Attributes:
-        elements: list[MarkdownElement | str], list of inner elements
-        sep: (MarkdownElement | str), elements separator
+        elements: list[MarkdownContainer | str], list of inner elements
+        sep: (MarkdownContainer | str), elements separator
         level: int, optional, level of the header, 1 by default
 
     Examples:
@@ -232,8 +196,8 @@ class Header(MarkdownContainer):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
         level: int = 1
     ):
         self.level = level
@@ -244,7 +208,7 @@ class Header(MarkdownContainer):
         return (
             '#' * self.level
             + f' {super().render()}'
-            + ParagraphBreak().render()
+            + PARAGRAPH_BREAK.render()
         )
 
 
@@ -253,8 +217,8 @@ class H1(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 1)
 
@@ -264,8 +228,8 @@ class H2(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 2)
 
@@ -275,8 +239,8 @@ class H3(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 3)
 
@@ -286,8 +250,8 @@ class H4(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 4)
 
@@ -297,8 +261,8 @@ class H5(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 5)
 
@@ -308,8 +272,8 @@ class H6(Header):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
     ):
         super().__init__(elements, sep, 6)
 
@@ -421,7 +385,7 @@ class OrderedList(MarkdownContainer):
             f'{i}. '
             + (
                 element.render()
-                if isinstance(element, MarkdownElement)
+                if isinstance(element, MarkdownContainer)
                 else f'{element}'
             )
             for i, element in enumerate(self.elements, 1)
@@ -453,7 +417,7 @@ class UnorderedList(MarkdownContainer):
             '- '
             + (
                 element.render()
-                if isinstance(element, MarkdownElement)
+                if isinstance(element, MarkdownContainer)
                 else f'{element}'
             )
             for i, element in enumerate(self.elements, 1)
@@ -484,8 +448,8 @@ class Code(MarkdownContainer):
     Class for Markdown multiline code block
 
     Attributes:
-        elements: list[MarkdownElement | str], list of inner elements
-        sep: (MarkdownElement | str), elements separator
+        elements: list[MarkdownContainer | str], list of inner elements
+        sep: (MarkdownContainer | str), elements separator
         language: str, language to highlight in code block
 
     Examples:
@@ -507,8 +471,8 @@ class Code(MarkdownContainer):
 
     def __init__(
         self,
-        elements: list[MarkdownElement | str],
-        sep: (MarkdownElement | str) = '',
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
         language: str = ''
     ):
         self.language = language
@@ -525,17 +489,12 @@ class Code(MarkdownContainer):
 
 class ColumnOrientation(str, Enum):
     """Markdown table column orientation"""
-    LEFT: str = ':--'
-    RIGHT: str = '--:'
-    MIDDLE: str = '---'
+    LEFT = ':--'
+    RIGHT = '--:'
+    MIDDLE = '---'
 
 
-class _TableBorder(MarkdownElement):
-    """Markdown table border element"""
-
-    def render(self):
-        """Returns markdown table border"""
-        return ' | '
+_TABLE_BORDER = MarkdownContainer([' | '])
 
 
 class TableRow(MarkdownContainer):
@@ -543,7 +502,7 @@ class TableRow(MarkdownContainer):
     Class for Markdown table row element
 
     Attributes:
-        elements: list[MarkdownElement | str], table row elements
+        elements: list[MarkdownContainer | str], table row elements
 
     Examples:
         Rendering table row
@@ -555,8 +514,8 @@ class TableRow(MarkdownContainer):
         ```
     """
 
-    def __init__(self, elements: list[MarkdownElement | str]):
-        super().__init__(elements, sep=_TableBorder())
+    def __init__(self, elements: list[MarkdownContainer | str]):
+        super().__init__(elements, sep=_TABLE_BORDER)
 
 
 class Table(MarkdownContainer):
@@ -600,7 +559,7 @@ class Table(MarkdownContainer):
     ):
         self.header = header
         self.orientation = orientation
-        super().__init__(rows, NewLine())
+        super().__init__(rows, NEWLINE)
 
     def render(self):
         """Returns Markdown table"""
