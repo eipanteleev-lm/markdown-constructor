@@ -458,7 +458,7 @@ class Code(MarkdownContainer):
         ```
         >> element = Code(
         >>     [
-        >>         'import pandas as pd\n'
+        >>         'import pandas as pd\\n'
         >>         'import numpy as np'
         >>     ],
         >>     language='py'
