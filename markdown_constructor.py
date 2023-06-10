@@ -67,6 +67,9 @@ NEWLINE = MarkdownContainer(['\n'])
 PARAGRAPH_BREAK = MarkdownContainer(['\n\n'])
 LINE = MarkdownContainer(['\n\n---\n\n'])
 
+# Line break for table cells
+HTML_LINEBREAK = MarkdownContainer(['</br>'])
+
 
 class Quote(MarkdownContainer):
     """
@@ -672,3 +675,12 @@ class HTMLComment(MarkdownContainer):
             + f'{super().render()}'
             + '-->'
         )
+
+
+class Latex(MarkdownContainer):
+    """
+    Class for Latex formulas
+    """
+
+    def render(self):
+        return f'${super().render()}$'
