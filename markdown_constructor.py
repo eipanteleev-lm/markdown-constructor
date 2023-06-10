@@ -1,7 +1,7 @@
 import urllib.parse
 from enum import Enum
 
-MARKDOWN_QUOTE_SYMBOLS = list('_')
+MARKDOWN_QUOTE_SYMBOLS = list('_*`')
 
 
 class MarkdownContainer:
