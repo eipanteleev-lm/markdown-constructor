@@ -20,8 +20,8 @@ Rendering multiple lines splitted by paragraph break
   
 ```  
 >> element = MarkdownContainer(  
->>     ['first paragraph', Line(), 'second paragraph'],  
->>     ParagraphBreak()  
+>>     ['first paragraph', LINE, 'second paragraph'],  
+>>     PARAGRAPH_BREAK  
 >> )  
 >> element.render()  
 first paragraph  
@@ -183,7 +183,7 @@ Rendering first level header
   
 ```  
 >> element = Header(  
->>     ['module', Whitespace(), Quote(['markdown_constructor'])]  
+>>     ['module', WHITESPACE, Quote(['markdown_constructor'])]  
 >> )  
 >> element.render()  
   
@@ -613,15 +613,15 @@ Examples:
 Rendering table  
   
 ```  
->> table = md.Table(  
->>     header=md.TableRow(['name', 'value']),  
+>> table = Table(  
+>>     header=TableRow(['name', 'value']),  
 >>     rows=[  
->>         md.TableRow(['1', 'one']),  
->>         md.TableRow(['2', 'two'])  
+>>         TableRow(['1', 'one']),  
+>>         TableRow(['2', 'two'])  
 >>     ],  
 >>     orientation=[  
->>         md.ColumnOrientation.LEFT,  
->>         md.ColumnOrientation.RIGHT  
+>>         ColumnOrientation.LEFT,  
+>>         ColumnOrientation.RIGHT  
 >>     ]  
 >> )  
 >> table.render()  
