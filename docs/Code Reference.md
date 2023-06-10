@@ -398,7 +398,34 @@ Returns bolded italic inner elements
 
 
 
-### *class* `.markdown_constructor.Blockquotes` [[source]](../markdown_constructor.py#L338)
+### *class* `.markdown_constructor.Strikethrough` [[source]](../markdown_constructor.py#L338)
+
+Base: MarkdownContainer
+
+Class for Markdown strikethrough element  
+  
+Examples:  
+Rendering strikethrough text  
+  
+```  
+>> element = Strikethrough(['some text'])  
+>> element.render()  
+~~some text~~  
+```  
+
+#### Methods
+
+> **.markdown\_constructor.Strikethrough.render**(*self: Any*) -> *Any* [[source]](../markdown_constructor.py#L352)
+
+Args:  
+  
+- **self**: Any  
+  
+Returns: Any  
+
+
+
+### *class* `.markdown_constructor.Blockquotes` [[source]](../markdown_constructor.py#L356)
 
 Base: MarkdownContainer
 
@@ -415,13 +442,13 @@ Rendering block quotes
 
 #### Methods
 
-> **.markdown\_constructor.Blockquotes.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L352)
+> **.markdown\_constructor.Blockquotes.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L370)
 
 Returns blockquotes with inner elements  
 
 
 
-### *class* `.markdown_constructor.OrderedList` [[source]](../markdown_constructor.py#L360)
+### *class* `.markdown_constructor.OrderedList` [[source]](../markdown_constructor.py#L378)
 
 Base: MarkdownContainer
 
@@ -443,7 +470,7 @@ Rendering ordered list
 
 #### Methods
 
-> **.markdown\_constructor.OrderedList.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*) -> *Any* [[source]](../markdown_constructor.py#L379)
+> **.markdown\_constructor.OrderedList.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*) -> *Any* [[source]](../markdown_constructor.py#L397)
 
 Args:  
   
@@ -452,13 +479,13 @@ Args:
   
 Returns: Any  
 
-> **.markdown\_constructor.OrderedList.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L382)
+> **.markdown\_constructor.OrderedList.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L400)
 
 Returns Markdown ordered list with inner elements as items  
 
 
 
-### *class* `.markdown_constructor.UnorderedList` [[source]](../markdown_constructor.py#L395)
+### *class* `.markdown_constructor.UnorderedList` [[source]](../markdown_constructor.py#L413)
 
 Base: MarkdownContainer
 
@@ -480,13 +507,80 @@ Rendering unordered list
 
 #### Methods
 
-> **.markdown\_constructor.UnorderedList.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L414)
+> **.markdown\_constructor.UnorderedList.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L432)
 
 Returns Markdown unordered list with inner elements as items  
 
 
 
-### *class* `.markdown_constructor.InlineCode` [[source]](../markdown_constructor.py#L427)
+### *class* `.markdown_constructor.TaskItem` [[source]](../markdown_constructor.py#L445)
+
+Base: MarkdownContainer
+
+Class for Markdown task list item element  
+  
+Attributes:  
+elements: list[MarkdownContainer | str], list of inner elements  
+sep: (MarkdownContainer | str), elements separator  
+is_done: bool, is the task done or not, False by default  
+
+#### Methods
+
+> **.markdown\_constructor.TaskItem.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*, *sep: (MarkdownContainer | str)*, *is\_done: bool*) -> *Any* [[source]](../markdown_constructor.py#L455)
+
+Args:  
+  
+- **self**: Any  
+- **elements**: list[(MarkdownContainer | str)]  
+- **sep**: (MarkdownContainer | str)  
+- **is_done**: bool  
+  
+Returns: Any  
+
+> **.markdown\_constructor.TaskItem.render**(*self: Any*) -> *Any* [[source]](../markdown_constructor.py#L464)
+
+Returns Markdown task list item with inner elements  
+
+
+
+### *class* `.markdown_constructor.TaskList` [[source]](../markdown_constructor.py#L472)
+
+Base: UnorderedList
+
+Class for Markdown task list element  
+  
+Attributes:  
+elements: list[TaskItem], list of tasks  
+  
+Examples:  
+Render task list  
+  
+```  
+>> element = TaskList([  
+>>     TaskItem(['First task'], is_done=True),  
+>>     TaskItem(['Second task']),  
+>>     TaskItem(['Third task'])  
+>> ])  
+>> element.render()  
+- [x] First task  
+- [ ] Second task  
+- [ ] Third task  
+```  
+
+#### Methods
+
+> **.markdown\_constructor.TaskList.\_\_init\_\_**(*self: Any*, *elements: list[TaskItem]*) -> *Any* [[source]](../markdown_constructor.py#L495)
+
+Args:  
+  
+- **self**: Any  
+- **elements**: list[TaskItem]  
+  
+Returns: Any  
+
+
+
+### *class* `.markdown_constructor.InlineCode` [[source]](../markdown_constructor.py#L499)
 
 Base: MarkdownContainer
 
@@ -503,13 +597,13 @@ Rendering inline code
 
 #### Methods
 
-> **.markdown\_constructor.InlineCode.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L441)
+> **.markdown\_constructor.InlineCode.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L513)
 
 Returns Mrkdown inline code with inner elements  
 
 
 
-### *class* `.markdown_constructor.Code` [[source]](../markdown_constructor.py#L446)
+### *class* `.markdown_constructor.Code` [[source]](../markdown_constructor.py#L518)
 
 Base: MarkdownContainer
 
@@ -526,8 +620,7 @@ Rendering multiline code block
 ```  
 >> element = Code(  
 >>     [  
->>         'import pandas as pd  
-'  
+>>         'import pandas as pd\n'  
 >>         'import numpy as np'  
 >>     ],  
 >>     language='py'  
@@ -539,7 +632,7 @@ import numpy as np
 
 #### Methods
 
-> **.markdown\_constructor.Code.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*, *sep: (MarkdownContainer | str)*, *language: str*) -> *Any* [[source]](../markdown_constructor.py#L472)
+> **.markdown\_constructor.Code.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*, *sep: (MarkdownContainer | str)*, *language: str*) -> *Any* [[source]](../markdown_constructor.py#L544)
 
 Args:  
   
@@ -550,13 +643,13 @@ Args:
   
 Returns: Any  
 
-> **.markdown\_constructor.Code.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L481)
+> **.markdown\_constructor.Code.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L553)
 
 Returns markdown code block with inner elements  
 
 
 
-### *class* `.markdown_constructor.ColumnOrientation` [[source]](../markdown_constructor.py#L490)
+### *class* `.markdown_constructor.ColumnOrientation` [[source]](../markdown_constructor.py#L562)
 
 Base: str, Enum
 
@@ -566,7 +659,7 @@ Markdown table column orientation
 
 
 
-### *class* `.markdown_constructor.TableRow` [[source]](../markdown_constructor.py#L500)
+### *class* `.markdown_constructor.TableRow` [[source]](../markdown_constructor.py#L572)
 
 Base: MarkdownContainer
 
@@ -586,7 +679,7 @@ Rendering table row
 
 #### Methods
 
-> **.markdown\_constructor.TableRow.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*) -> *Any* [[source]](../markdown_constructor.py#L517)
+> **.markdown\_constructor.TableRow.\_\_init\_\_**(*self: Any*, *elements: list[(MarkdownContainer | str)]*) -> *Any* [[source]](../markdown_constructor.py#L589)
 
 Args:  
   
@@ -597,7 +690,7 @@ Returns: Any
 
 
 
-### *class* `.markdown_constructor.Table` [[source]](../markdown_constructor.py#L521)
+### *class* `.markdown_constructor.Table` [[source]](../markdown_constructor.py#L593)
 
 Base: MarkdownContainer
 
@@ -633,7 +726,7 @@ name | value
 
 #### Methods
 
-> **.markdown\_constructor.Table.\_\_init\_\_**(*self: Any*, *header: TableRow*, *rows: list[TableRow]*, *orientation: (list[ColumnOrientation] | None)*) -> *Any* [[source]](../markdown_constructor.py#L554)
+> **.markdown\_constructor.Table.\_\_init\_\_**(*self: Any*, *header: TableRow*, *rows: list[TableRow]*, *orientation: (list[ColumnOrientation] | None)*) -> *Any* [[source]](../markdown_constructor.py#L626)
 
 Args:  
   
@@ -644,13 +737,13 @@ Args:
   
 Returns: Any  
 
-> **.markdown\_constructor.Table.render**(*self: Any*) -> *Any* [[source]](../markdown_constructor.py#L564)
+> **.markdown\_constructor.Table.render**(*self: Any*) -> *Any* [[source]](../markdown_constructor.py#L636)
 
 Returns Markdown table  
 
 
 
-### *class* `.markdown_constructor.HTMLComment` [[source]](../markdown_constructor.py#L582)
+### *class* `.markdown_constructor.HTMLComment` [[source]](../markdown_constructor.py#L654)
 
 Base: MarkdownContainer
 
@@ -667,7 +760,7 @@ Rendering an HTML comment (not visible in Markdown)
 
 #### Methods
 
-> **.markdown\_constructor.HTMLComment.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L596)
+> **.markdown\_constructor.HTMLComment.render**(*self: Any*) -> *str* [[source]](../markdown_constructor.py#L668)
 
 Returns markdown HTML comment with inner elements  
 

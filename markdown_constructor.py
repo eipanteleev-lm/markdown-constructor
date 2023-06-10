@@ -335,6 +335,24 @@ class BoldItalic(MarkdownContainer):
         return f'***{super().render()}***'
 
 
+class Strikethrough(MarkdownContainer):
+    """
+    Class for Markdown strikethrough element
+
+    Examples:
+        Rendering strikethrough text
+
+        ```
+        >> element = Strikethrough(['some text'])
+        >> element.render()
+        ~~some text~~
+        ```
+    """
+
+    def render(self):
+        return f'~~{super().render()}~~'
+
+
 class Blockquotes(MarkdownContainer):
     """
     Class for Markdown blockquotes element
@@ -424,6 +442,60 @@ class UnorderedList(MarkdownContainer):
         )
 
 
+class TaskItem(MarkdownContainer):
+    """
+    Class for Markdown task list item element
+
+    Attributes:
+        elements: list[MarkdownContainer | str], list of inner elements
+        sep: (MarkdownContainer | str), elements separator
+        is_done: bool, is the task done or not, False by default
+    """
+
+    def __init__(
+        self,
+        elements: list[MarkdownContainer | str],
+        sep: (MarkdownContainer | str) = '',
+        is_done: bool = False
+    ):
+        self.is_done = is_done
+        super().__init__(elements, sep)
+
+    def render(self):
+        """Returns Markdown task list item with inner elements"""
+        return (
+            ('[x] ' if self.is_done else '[ ] ')
+            + f'{super().render()}'
+        )
+
+
+class TaskList(UnorderedList):
+    """
+    Class for Markdown task list element
+
+    Attributes:
+        elements: list[TaskItem], list of tasks
+
+    Examples:
+        Render task list
+
+        ```
+        >> element = TaskList([
+        >>     TaskItem(['First task'], is_done=True),
+        >>     TaskItem(['Second task']),
+        >>     TaskItem(['Third task'])
+        >> ])
+        >> element.render()
+        - [x] First task
+        - [ ] Second task
+        - [ ] Third task
+        ```
+    """
+
+    def __init__(self, elements: list[TaskItem]):
+        super().__init__(elements)
+
+
 class InlineCode(MarkdownContainer):
     """
     Class for Markdown inline code element
@@ -491,7 +563,7 @@ class ColumnOrientation(str, Enum):
     """Markdown table column orientation"""
     LEFT = ':--'
     RIGHT = '--:'
-    MIDDLE = '---'
+    MIDDLE = ':-:'
 
 
 _TABLE_BORDER = MarkdownContainer([' | '])
