@@ -24,5 +24,9 @@ setup(
     include_package_data=True,
     author='Evgenii Panteleev',
     long_description=get_readme(),
-    long_description_content_type="text/markdown"
+    long_description_content_type="text/markdown",
+    url='https://github.com/eipanteleev-lm/markdown-constructor',
+    classifiers=[
+        'License :: OSI Approved :: MIT License'
+    ]
 )
