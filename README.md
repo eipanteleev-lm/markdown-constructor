@@ -1,3 +1,5 @@
+![Workflow Badge](https://github.com/eipanteleev-lm/markdown-constructor/actions/workflows/python-app.yml/badge.svg)
+
 # markdown-constructor
 
 A simple python module for object oriented generating Markdown formatted text
@@ -26,6 +28,14 @@ with open(path) as f:
 
 markdown = md.MarkdownContainer(
     [
+        md.Image(
+            'Workflow Badge',
+            (
+                'https://github.com/eipanteleev-lm/markdown-constructor'
+                '/actions/workflows/python-app.yml/badge.svg'
+            )
+        ),
+        md.PARAGRAPH_BREAK,
         md.H1(['markdown-constructor']),
         md.Paragraph([
             'A simple python module for object oriented generating '
