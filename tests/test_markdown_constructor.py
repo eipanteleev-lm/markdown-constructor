@@ -203,4 +203,44 @@ def test_code():
     assert code.render() == expected
 
 
-# TODO: add tests for other elements
+def test_table():
+    table = md.Table(
+        header=md.TableRow(['column 1', 'column 2']),
+        rows=[
+            md.TableRow(['1', 'one']),
+            md.TableRow(['2', 'two']),
+            md.TableRow(['2', 'three'])
+        ]
+    )
+
+    expected = (
+        'column 1 | column 2\n'
+        ':-- | :--\n'
+        '1 | one\n'
+        '2 | two\n'
+        '2 | three'
+    )
+
+    assert table.render() == expected
+
+
+def test_table_orientation():
+    table = md.Table(
+        header=md.TableRow(['column 1', 'column 2']),
+        rows=[
+            md.TableRow(['1', 'one']),
+            md.TableRow(['2', 'two']),
+            md.TableRow(['2', 'three'])
+        ],
+        orientation=[md.ColumnOrientation.LEFT, md.ColumnOrientation.RIGHT]
+    )
+
+    expected = (
+        'column 1 | column 2\n'
+        ':-- | --:\n'
+        '1 | one\n'
+        '2 | two\n'
+        '2 | three'
+    )
+
+    assert table.render() == expected

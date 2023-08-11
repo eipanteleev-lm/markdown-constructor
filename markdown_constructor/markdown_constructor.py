@@ -558,7 +558,7 @@ class ColumnOrientation(str, Enum):
     MIDDLE = ':-:'
 
 
-_TABLE_BORDER = MarkdownContainer([' | '])
+_TABLE_BORDER = StringLiteral(' | ')
 
 
 class TableRow(MarkdownContainer):
