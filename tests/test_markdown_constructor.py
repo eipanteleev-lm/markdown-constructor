@@ -1,18 +1,4 @@
-import os
-import sys
-import importlib.util
-
-TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
-BASE_PATH = os.path.dirname(TESTS_PATH)
-MODULE_PATH = os.path.join(BASE_PATH, 'markdown_constructor.py')
-
-spec = importlib.util.spec_from_file_location(
-    "markdown_constructor",
-    MODULE_PATH
-)
-md = importlib.util.module_from_spec(spec)
-sys.modules["markdown_constructor"] = md
-spec.loader.exec_module(md)
+import markdown_constructor as md
 
 
 def test_quote():
