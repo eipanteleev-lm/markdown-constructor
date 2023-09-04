@@ -9,7 +9,7 @@ A simple python module for object oriented generating Markdown formatted text
 ```sh
 git clone https://github.com/eipanteleev-lm/markdown-constructor
 cd markdown-constructor
-python setup.py install
+pip install -e .
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ markdown = md.MarkdownContainer(
                     'git clone '
                     'https://github.com/eipanteleev-lm/markdown-constructor\n'
                     'cd markdown-constructor\n'
-                    'python setup.py install'
+                    'pip install -e .'
                 ),
                 language='sh'
             )

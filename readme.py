@@ -29,7 +29,7 @@ markdown = md.MarkdownContainer(
                     'git clone '
                     'https://github.com/eipanteleev-lm/markdown-constructor\n'
                     'cd markdown-constructor\n'
-                    'python setup.py install'
+                    'pip install -e .'
                 ),
                 language='sh'
             )
