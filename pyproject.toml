@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "markdown-constructor"
+version = "0.1.0"
+description = "A simple python package for object oriented generating Markdown formatted text"
+authors = ["Evgenii Panteleev"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/eipanteleev-lm/markdown-constructor"
+include = ["LICENSE"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -181,15 +181,15 @@ def test_task_list():
 
 
 def test_inline_code():
-    assert md.InlineCode(['test']).render() == '`test`'
+    assert md.InlineCode('test').render() == '`test`'
 
 
 def test_code():
     code = md.Code(
-        [
+        (
             'import pandas as pd\n'
             'import numpy as np'
-        ],
+        ),
         language='py'
     )
 
