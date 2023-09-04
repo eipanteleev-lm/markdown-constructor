@@ -489,7 +489,7 @@ class TaskList(UnorderedList):
         super().__init__(elements)
 
 
-class InlineCode(MarkdownContainer):
+class InlineCode(StringLiteral):
     """
     Class for Markdown inline code element
 
@@ -506,24 +506,22 @@ class InlineCode(MarkdownContainer):
         return f'`{super().render()}`'
 
 
-class Code(MarkdownContainer):
+class Code(StringLiteral):
     """
     Class for Markdown multiline code block
 
     Attributes:
-        elements: Sequence[Union[MarkdownContainer, str]], list of inner
-            elements
-        sep: Union[MarkdownContainer, str], elements separator
+        text: str, code
         language: str, language to highlight in code block
 
     Examples:
         Rendering multiline code block
 
         >> element = Code(
-        >>     [
+        >>     (
         >>         'import pandas as pd\\n'
         >>         'import numpy as np'
-        >>     ],
+        >>     ),
         >>     language='py'
         >> )
         >> element.render()
@@ -535,12 +533,11 @@ class Code(MarkdownContainer):
 
     def __init__(
         self,
-        elements: Sequence[Union[MarkdownElement, str]],
-        sep: Union[MarkdownElement, str] = '',
+        text: str,
         language: str = ''
     ):
         self.language = language
-        super().__init__(elements, sep)
+        super().__init__(text)
 
     def render(self) -> str:
         """Returns markdown code block with inner elements"""
